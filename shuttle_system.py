@@ -1,5 +1,5 @@
 import json
-import random
+import secrets
 from datetime import datetime
 
 # Global state
@@ -31,14 +31,14 @@ def underused_routes():
         try:
             if average_load(r) < MIN_CAPACITY:
                 flagged.append(r)
-        except Exception:
-            pass
+        except (ZeroDivisionError, TypeError) as err:
+            print(f"Skipping {r}: {err}")
     return flagged
 
 
 def assignDriver(route_id):
     drivers = ["Prakash", "Leela", "Imran", "Tom"]
-    return random.choice(drivers)
+    return secrets.choice(drivers)
 
 
 def sync_fleet_data(file="fleet.json"):
